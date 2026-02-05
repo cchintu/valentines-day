@@ -17,7 +17,7 @@
 
     body {
       min-height: 100vh;
-      background: linear-gradient(135deg, #ff5f9e, #ffc371);
+      background: linear-gradient(135deg, #2d1b4e, #3d2463);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -26,15 +26,16 @@
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(14px);
       padding: 3rem 2.5rem;
       border-radius: 22px;
       text-align: center;
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(200, 100, 255, 0.15);
       max-width: 440px;
       width: 90%;
       animation: fadeIn 1.2s ease;
+      border: 1px solid rgba(200, 100, 255, 0.2);
     }
 
     h1 {
@@ -73,7 +74,10 @@
     .yes {
       background: #fff;
       color: #ff4f7a;
-      font-weight: 600;
+      font-weight: 700;
+      font-family: 'Georgia', serif;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
     }
 
     .yes:hover {
@@ -89,26 +93,127 @@
     .celebration {
       display: none;
       margin-top: 2rem;
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       animation: pop 0.6s ease forwards;
+      text-align: center;
+      line-height: 2;
+      font-weight: 700;
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, rgba(200, 100, 255, 0.2), rgba(150, 80, 200, 0.15));
+      padding: 2rem 1.8rem;
+      border-radius: 20px;
+      border: 2px solid rgba(200, 100, 255, 0.4);
+      backdrop-filter: blur(15px);
+      font-family: 'Georgia', serif;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(200, 100, 255, 0.3);
+    }
+
+    .celebration br {
+      margin: 0.3rem 0;
+    }
+
+    .celebration small {
+      font-size: 1.2rem;
+      opacity: 0.95;
+      display: block;
+      margin-top: 0.8rem;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      color: #e8a4d8;
+      letter-spacing: 0.5px;
+    }
+
+    .celebration .yayy {
+      font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: #d8a8e8;
+      text-shadow: 0 3px 10px rgba(200, 100, 255, 0.6), 0 0 20px rgba(216, 168, 232, 0.5);
+      letter-spacing: 2px;
+    }
+
+    .celebration .highlight-yes {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #ff69d8;
+      background: rgba(255, 105, 216, 0.2);
+      padding: 0.3rem 0.6rem;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(255, 105, 216, 0.4);
+      font-style: italic;
+    }
+
+    .buttons.hidden {
+      display: none;
+    }
+
+    .background-hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .background-hearts span {
+      position: absolute;
+      font-size: clamp(40px, 15vw, 120px);
+      opacity: 0.08;
+      animation: slowFloat 20s ease-in-out infinite;
+      filter: blur(1px);
+      color: #e8a4d8;
     }
 
     .hearts span {
       position: absolute;
       font-size: 1.6rem;
-      animation: floatUp 4s linear infinite;
+      animation: floatUp 6s linear infinite, sparkle 3s ease-in-out infinite;
       pointer-events: none;
+      text-shadow: 0 0 10px rgba(200, 100, 255, 0.8), 0 0 20px rgba(200, 100, 255, 0.4);
+      filter: drop-shadow(0 0 8px rgba(200, 100, 255, 0.6));
     }
 
     /* Animations */
     @keyframes floatUp {
       0% {
-        transform: translateY(0) scale(1);
+        transform: translateY(100vh) translateX(0) scale(1);
+        opacity: 0;
+      }
+      15% {
+        opacity: 1;
+      }
+      85% {
         opacity: 1;
       }
       100% {
-        transform: translateY(-120vh) scale(1.8);
+        transform: translateY(-100vh) translateX(0) scale(1);
         opacity: 0;
+      }
+    }
+
+    @keyframes sparkle {
+      0%, 100% {
+        opacity: 0.6;
+        filter: drop-shadow(0 0 8px rgba(200, 100, 255, 0.6));
+      }
+      50% {
+        opacity: 1;
+        filter: drop-shadow(0 0 16px rgba(200, 100, 255, 1));
+      }
+    }
+
+    @keyframes slowFloat {
+      0%, 100% {
+        transform: translateY(0) scale(1);
+        opacity: 0.08;
+      }
+      50% {
+        transform: translateY(-100px) scale(1.1);
+        opacity: 0.12;
       }
     }
 
@@ -168,8 +273,10 @@
 
 <body>
 
+  <div class="background-hearts" id="backgroundHearts"></div>
+
   <div class="card">
-    <h1>Hey Bangaram 💛</h1>
+    <h1>Hey Bangaram 💜
 
     <p>
       From the day you came into my life,<br />
@@ -187,8 +294,8 @@
     </div>
 
     <div class="celebration" id="celebration">
-      YAYYYY!!! 🎉💞<br />
-      Bangaram said YES 😍<br /><br />
+      <span class="yayy">YAYYYY!!</span> 🎉<br />
+      Bangaram said <span class="highlight-yes">YES</span> 💕<br /><br />
       <small>— Forever yours, Chinnodu 🥰</small>
     </div>
   </div>
@@ -196,6 +303,31 @@
   <div class="hearts" id="hearts"></div>
 
   <script>
+    // Create background hearts on page load
+    function createBackgroundHearts() {
+      const bgHeartsContainer = document.getElementById('backgroundHearts');
+      const cols = window.innerWidth < 768 ? 3 : 5;
+      const rows = window.innerWidth < 768 ? 2 : 2;
+      const totalHearts = cols * rows;
+
+      for (let i = 0; i < totalHearts; i++) {
+        const heart = document.createElement('span');
+        heart.textContent = '💖';
+        
+        // Calculate grid position with some randomness
+        const col = i % cols;
+        const row = Math.floor(i / cols);
+        const x = (col / cols) * 100 + Math.random() * (100 / cols) * 0.6;
+        const y = (row / rows) * 100 + Math.random() * (100 / rows) * 0.6;
+        
+        heart.style.left = x + '%';
+        heart.style.top = y + '%';
+        heart.style.animationDelay = (Math.random() * 5) + 's';
+        bgHeartsContainer.appendChild(heart);
+      }
+    }
+
+    createBackgroundHearts();
     function moveNo() {
       const noBtn = document.querySelector('.no');
       const x = Math.random() * 220 - 110;
@@ -204,6 +336,7 @@
     }
 
     function sayYes() {
+      document.querySelector('.buttons').classList.add('hidden');
       document.getElementById('celebration').style.display = 'block';
       createHearts();
 
@@ -218,15 +351,28 @@
 
       for (let i = 0; i < 36; i++) {
         const heart = document.createElement('span');
-        heart.textContent = '💖';
-        heart.style.left = Math.random() * 100 + 'vw';
-        heart.style.bottom = '-20px';
-        heart.style.animationDuration = (2 + Math.random() * 3) + 's';
+        const hearts = ['❤️', '💕', '💖', '💗', '💝'];
+        heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+        
+        // Spread hearts across bottom (avoid concentrated horizontal line)
+        heart.style.left = (Math.random() * 100) + 'vw';
+        
+        // No horizontal drift - straight up movement
+        heart.style.setProperty('--tx', '0px');
+        
+        // Slow and varied animation duration (6-12 seconds)
+        const duration = 6 + Math.random() * 6;
+        heart.style.animationDuration = duration + 's';
+        
+        // Stagger animation start for continuous effect
+        heart.style.animationDelay = (Math.random() * 0.8) + 's';
+        
         heartsContainer.appendChild(heart);
 
+        // Longer removal timeout to match slower animation
         setTimeout(() => {
           heart.remove();
-        }, 5000);
+        }, (duration + 1) * 1000);
       }
     }
   </script>
