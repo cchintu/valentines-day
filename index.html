@@ -130,21 +130,24 @@
 
     .celebration {
       display: none;
-      margin-top: 2rem;
-      font-size: 1.6rem;
+      margin-top: 1rem;
+      /* cap height so it doesn't push the whole card too far down */
+      max-height: 180px;
+      overflow-y: auto;
+      font-size: 1.25rem;
       animation: pop 0.6s ease forwards;
       text-align: center;
-      line-height: 2;
+      line-height: 1.45;
       font-weight: 700;
-      letter-spacing: 1px;
-      background: linear-gradient(135deg, rgba(200, 100, 255, 0.2), rgba(150, 80, 200, 0.15));
-      padding: 2rem 1.8rem;
-      border-radius: 20px;
-      border: 2px solid rgba(200, 100, 255, 0.4);
-      backdrop-filter: blur(15px);
+      letter-spacing: 0.6px;
+      background: linear-gradient(135deg, rgba(200, 100, 255, 0.18), rgba(150, 80, 200, 0.12));
+      padding: 1rem 1rem;
+      border-radius: 14px;
+      border: 1px solid rgba(200, 100, 255, 0.28);
+      backdrop-filter: blur(10px);
       font-family: 'Georgia', serif;
       color: #fff;
-      text-shadow: 0 2px 8px rgba(200, 100, 255, 0.3);
+      text-shadow: 0 1px 6px rgba(200, 100, 255, 0.22);
     }
 
     .celebration br {
@@ -152,14 +155,14 @@
     }
 
     .celebration small {
-      font-size: 1.2rem;
+      font-size: 0.95rem;
       opacity: 0.95;
       display: block;
-      margin-top: 0.8rem;
+      margin-top: 0.5rem;
       font-family: 'Poppins', sans-serif;
       font-weight: 600;
       color: #e8a4d8;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.4px;
     }
 
     .celebration .yayy {
@@ -473,6 +476,24 @@
       // Show celebration text/box
       const celebrationBox = document.getElementById('celebration');
       celebrationBox.style.display = 'block';
+
+      // let layout settle (gif swap / class toggles), then adjust & scroll celebration into view
+      setTimeout(() => {
+        // Ensure layout adjustments (compacting) run
+        if (typeof adjustLayout === 'function') adjustLayout();
+
+        // Smoothly bring the celebration into view — scrolls nearest scrollable ancestor (the card)
+        try {
+          celebrationBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } catch (e) {
+          // fallback: scroll the card container manually
+          const card = document.querySelector('.card');
+          if (card) {
+            const top = celebrationBox.offsetTop - (card.clientHeight / 2) + (celebrationBox.clientHeight / 2);
+            card.scrollTo({ top, behavior: 'smooth' });
+          }
+        }
+      }, 90);
 
       createHearts();
 
