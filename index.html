@@ -478,22 +478,40 @@
       celebrationBox.style.display = 'block';
 
       // let layout settle (gif swap / class toggles), then adjust & scroll celebration into view
-      setTimeout(() => {
-        // Ensure layout adjustments (compacting) run
-        if (typeof adjustLayout === 'function') adjustLayout();
+        setTimeout(() => {
+          // Ensure layout adjustments (compacting) run
+          if (typeof adjustLayout === 'function') adjustLayout();
 
-        // Smoothly bring the celebration into view — scrolls nearest scrollable ancestor (the card)
-        try {
-          celebrationBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } catch (e) {
-          // fallback: scroll the card container manually
-          const card = document.querySelector('.card');
-          if (card) {
-            const top = celebrationBox.offsetTop - (card.clientHeight / 2) + (celebrationBox.clientHeight / 2);
-            card.scrollTo({ top, behavior: 'smooth' });
+          // custom smooth scroll to control duration (800ms)
+          const container = document.querySelector('.card') || document.scrollingElement || document.documentElement;
+          const containerIsDocument = container === document.scrollingElement || container === document.documentElement;
+          const targetTop = celebrationBox.offsetTop - (container.clientHeight / 2) + (celebrationBox.clientHeight / 2);
+
+          const getScrollTop = () => containerIsDocument ? (window.scrollY || window.pageYOffset) : container.scrollTop;
+          const setScrollTop = (v) => {
+            if (containerIsDocument) window.scrollTo({ top: v }); else container.scrollTop = v;
+          };
+
+          const start = getScrollTop();
+          const end = targetTop;
+          const change = end - start;
+          const duration = 800; // ms — slightly slower
+          const startTime = performance.now();
+
+          function easeInOutQuad(t) {
+            return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
           }
-        }
-      }, 90);
+
+          function animate(now) {
+            const elapsed = now - startTime;
+            const t = Math.min(elapsed / duration, 1);
+            const eased = easeInOutQuad(t);
+            setScrollTop(start + change * eased);
+            if (t < 1) requestAnimationFrame(animate);
+          }
+
+          requestAnimationFrame(animate);
+        }, 90);
 
       createHearts();
 
